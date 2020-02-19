@@ -9,7 +9,7 @@ class Controller {
     public function login() {
         $response = [
             'status' => 'error',
-            'name' => ''
+            'name' => null
         ];
         if( isset($_POST['username'], $_POST['password']) ) {
             $username = $_POST['username'];
