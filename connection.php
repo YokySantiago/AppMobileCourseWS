@@ -34,11 +34,12 @@ class Connection {
             $stmt->execute();
             /* obtener valor */
             $result = $stmt->get_result();
-            if ($result != false ) {
-                $row = $result->fetch_assoc();
+            $row = $result->fetch_assoc();
+            if ( $row != false ) {
                 $response = [
                     'name' => $row['name']
                 ];
+                var_dump($response);exit;
                 /* cerrar sentencia */
                 $stmt->close();
             }
