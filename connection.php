@@ -15,13 +15,42 @@ class Connection {
         $this->db = 'app_mobile_course';
     }
 
-    public function OpenCon()
+    private function OpenCon()
     {
         $this->conn = new mysqli($this->dbhost, $this->dbuser, $this->dbpass, $this->db) or die("Connect failed: %s\n". $conn -> error);
         return true;
     }
+
+    public function authenticate( $username, $password ) {
+        $this->OpenCon();
+        $sqlQuery = "SELECT name FROM user WHERE username = ? AND password = ? LIMIT 1";
+
+        $response = false;
+        /* crear una sentencia preparada */
+        if ($stmt = $this->conn->prepare($sqlQuery)) {
+            /* ligar parámetros para marcadores */
+            $stmt->bind_param('ss', $username, $password);
+            /* ejecutar la consulta */
+            $stmt->execute();
+            /* obtener valor */
+            $result = $stmt->get_result();
+            if ($result != false ) {
+                $row = $result->fetch_assoc();
+                $response = [
+                    'name' => $row['name']
+                ];
+                /* cerrar sentencia */
+                $stmt->close();
+            }
+        }
+
+        /* cerrar conexión */
+        $this->CloseCon();
+
+        return $response;
+    }
     
-    public function CloseCon($conn)
+    public function CloseCon()
     {
         $this->conn->close();
     }
