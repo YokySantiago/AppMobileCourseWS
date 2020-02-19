@@ -39,7 +39,6 @@ class Connection {
                 $response = [
                     'name' => $row['name']
                 ];
-                var_dump($response);exit;
                 /* cerrar sentencia */
                 $stmt->close();
             }
